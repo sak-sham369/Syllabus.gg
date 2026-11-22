@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14061f">
+<title>Class 10 · Leonida Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff2d95;--orange:#ff8a3d;--cyan:#27e8ff;--bg:#14061f;--card:rgba(24,6,48,.62);--tx:#fff2fa;--accent:#ff2d95;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:Oswald,"Arial Narrow",sans-serif}
+body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);overflow-x:hidden}
+.sky{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#12062e 0%,#4a1a8c 22%,#c2308f 45%,#ff5a7a 62%,#ff9a3c 78%,#ffd36e 90%,#2ad4c8 91%,#0b6f8f 100%)}
+.sky:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--sx,50%) 78%,rgba(255,255,255,.55),transparent 38%);mix-blend-mode:soft-light}
+.tint{position:fixed;inset:0;z-index:-2;background:var(--accent);mix-blend-mode:overlay;opacity:.22;transition:background .6s}
+.sun{position:fixed;left:50%;bottom:21%;width:260px;height:260px;margin-left:-130px;border-radius:50%;z-index:-2;background:linear-gradient(#fff6b0,#ffb347 45%,#ff3f8e);filter:drop-shadow(0 0 70px #ff7a3d);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.06);filter:drop-shadow(0 0 110px #ffb347)}}
+.palms{position:fixed;left:0;right:0;bottom:0;height:62vh;width:100%;z-index:-1;pointer-events:none}
+.palms .p{transform-origin:bottom center;animation:sway 6s ease-in-out infinite alternate}
+.palms .p2{animation-delay:-3s}
+@keyframes sway{to{transform:rotate(2.5deg)}}
+header{padding:20px 16px 4px;text-align:center}
+.vi{font:400 96px/0.9 Anton,Impact,sans-serif;letter-spacing:4px;background:linear-gradient(180deg,#ffe36e 0,#ff9a3c 38%,#ff3f8e 80%,#c2308f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 rgba(30,0,50,.55)) drop-shadow(0 0 22px rgba(255,63,142,.8))}
+.sub{font:600 13px Oswald;letter-spacing:9px;color:#fff;text-shadow:0 0 14px #ff3f8e;margin-top:6px}
+header{padding:22px 18px 8px;text-align:center}
+.logo{font-family:Anton,Impact,sans-serif;font-size:54px;line-height:1;letter-spacing:2px;background:linear-gradient(180deg,#ffe36e,#ff8a3d 45%,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(255,45,149,.7))}
+.logo small{display:block;font-size:15px;letter-spacing:7px;color:var(--cyan);-webkit-text-fill-color:var(--cyan);margin-top:6px;font-family:Oswald}
+.wanted{display:flex;justify-content:center;gap:6px;margin:12px 0 2px}
+.star{font-size:26px;color:rgba(255,255,255,.2);transition:.5s}
+.star.on{color:#ffd23f;text-shadow:0 0 14px #ffd23f;animation:pop .6s}
+@keyframes pop{40%{transform:scale(1.6) rotate(20deg)}}
+.pct{font-size:13px;letter-spacing:3px;opacity:.85}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px);background:rgba(24,6,48,.45)}
+nav::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:10px 16px;border:1px solid rgba(255,255,255,.25);border-radius:4px;background:var(--card);color:var(--tx);font:600 15px Oswald;letter-spacing:2px;text-transform:uppercase;transform:skewX(-10deg);transition:.25s;cursor:pointer}
+.tab span{display:inline-block;transform:skewX(10deg)}
+.tab.act{background:var(--accent);border-color:#fff;box-shadow:0 0 22px var(--accent),inset 0 0 12px rgba(255,255,255,.35)}
+main{padding:10px 14px 90px;max-width:720px;margin:auto}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;margin:10px 2px 8px}
+.hd h2{margin:0;font:400 34px Anton;letter-spacing:1px;text-shadow:0 0 18px var(--accent)}
+.hd b{font-size:22px;color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.bar{height:10px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--accent),var(--cyan));box-shadow:0 0 16px var(--accent);transition:width .7s cubic-bezier(.2,.9,.3,1)}
+.grp{margin:18px 2px 8px;font-size:13px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;border-left:3px solid var(--accent);padding-left:10px}
+.ch{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.16);border-radius:6px;background:var(--card);backdrop-filter:blur(8px);cursor:pointer;position:relative;overflow:hidden;opacity:0;transform:translateX(-30px) skewX(-4deg);animation:in .5s forwards;transition:background .3s,border-color .3s}
+@keyframes in{to{opacity:1;transform:none}}
+.ch:active{transform:scale(.98)}
+.ch .n{font:400 20px Anton;color:var(--cyan);min-width:30px;opacity:.9}
+.ch .t{flex:1;font-size:17px;letter-spacing:.5px;line-height:1.25;transition:.3s}
+.box{width:28px;height:28px;border:2px solid #fff;border-radius:4px;display:grid;place-items:center;font-size:20px;color:transparent;transition:.3s;flex:none}
+.ch.done{background:linear-gradient(90deg,rgba(255,45,149,.28),rgba(39,232,255,.14));border-color:var(--accent)}
+.ch.done .t{opacity:.55;text-decoration:line-through;text-decoration-color:var(--accent)}
+.ch.done .box{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 16px var(--accent);animation:pop .4s}
+.xp{position:fixed;font:400 22px Anton;color:#ffd23f;text-shadow:0 0 12px #ff8a3d;pointer-events:none;z-index:30;animation:xp 1s forwards}
+@keyframes xp{to{transform:translateY(-70px);opacity:0}}
+.bloom{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#fff 0,var(--accent) 30%,transparent 70%);mix-blend-mode:screen}
+.bloom.go{animation:bloom .8s ease-out}
+@keyframes bloom{0%{opacity:0;transform:scale(.4)}25%{opacity:1;transform:scale(1.3)}100%{opacity:0;transform:scale(2)}}
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#000;transition:opacity 1s,filter 1s,transform 1s}
+#intro.out{opacity:0;filter:brightness(4) blur(14px);transform:scale(1.4);pointer-events:none}
+#intro .vi{animation:glow 1.6s ease-in-out infinite alternate}
+@keyframes glow{from{filter:drop-shadow(0 0 8px #ff2d95)}to{filter:drop-shadow(0 0 40px #ffd23f)}}
+.ld{width:70%;max-width:320px;height:6px;margin:30px auto 10px;background:#333;border-radius:4px;overflow:hidden}
+.ld i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8a3d,#ff2d95);animation:ld 2.4s forwards}
+@keyframes ld{to{width:100%}}
+.ctr{text-align:center}.ctr p{letter-spacing:5px;font-size:12px;color:var(--cyan);margin:0}
+#mp{position:fixed;left:0;right:0;top:38%;z-index:60;text-align:center;font:400 clamp(38px,12vw,76px) Anton;letter-spacing:4px;color:#ffd23f;text-shadow:0 0 30px #ff8a3d,0 0 70px #ff2d95;transform:scale(0);pointer-events:none}
+#mp small{display:block;font:600 16px Oswald;letter-spacing:8px;color:#fff}
+#mp.go{animation:mp 3s forwards}
+@keyframes mp{10%{transform:scale(1.2)}18%{transform:scale(1)}80%{transform:scale(1);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.rst{display:block;margin:26px auto 0;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font:600 12px Oswald;letter-spacing:3px;padding:10px 18px;border-radius:4px}
+</style></head><body>
+<div class="sky"></div><div class="tint"></div><div class="sun"></div><svg class="palms" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice"><defs><g id="pm"><path d="M0 0C4 -60 -4 -120 6 -190" stroke="#1a0630" stroke-width="7" fill="none"/><g fill="#1a0630"><path d="M6 -190C-30 -215 -60 -200 -85 -170C-55 -190 -30 -192 6 -190Z"/><path d="M6 -190C40 -222 80 -210 105 -175C75 -195 40 -195 6 -190Z"/><path d="M6 -190C-20 -240 -5 -262 -35 -280C0 -262 10 -235 6 -190Z"/><path d="M6 -190C30 -245 55 -255 75 -275C55 -250 40 -225 6 -190Z"/><path d="M6 -190C-50 -190 -85 -150 -100 -120C-70 -155 -35 -178 6 -190Z"/></g></g></defs><rect y="268" width="400" height="40" fill="#10042a"/><g class="p" transform="translate(40 290) scale(1.05)"><use href="#pm"/></g><g class="p p2" transform="translate(365 290) scale(1.25)"><use href="#pm"/></g><g class="p" transform="translate(105 292) scale(.6)"><use href="#pm"/></g><g class="p p2" transform="translate(300 292) scale(.7)"><use href="#pm"/></g></svg>
+<div id="intro"><div class="ctr"><div class="vi" style="font-size:150px">VI</div><div class="sub">CLASS X · LEONIDA</div><div class="ld"><i></i></div><p>LOADING SYLLABUS…</p></div></div>
+<div class="bloom" id="bloom"></div><div id="mp"><small>MISSION PASSED</small><span id="mpn">RESPECT +</span></div>
+<header><div class="vi">VI</div><div class="sub">CLASS X · SYLLABUS 2026–27</div>
+<div class="wanted" id="wanted"></div><div class="pct" id="pct">0% COMPLETE</div></header>
+<nav id="tabs"></nav><main id="main"></main>
+<script>setTimeout(function(){var i=document.getElementById("intro");if(i)i.remove()},4500);document.addEventListener("click",function(){var i=document.getElementById("intro");if(i)i.remove()})</script>
+<script>
+const D=[
+{id:"sci",n:"Science",c:"#27e8ff",g:[["",["Chemical Reactions and Equations","Acids, Bases and Salts","Metals and Non-metals","Carbon and its Compounds","Life Processes","Control and Coordination","How do Organisms Reproduce?","Heredity","Light – Reflection and Refraction","The Human Eye and the Colourful World","Electricity","Magnetic Effects of Electric Current","Our Environment"]]]},
+{id:"ssc",n:"SSC",c:"#ff8a3d",g:[["History",["The Rise of Nationalism in Europe","Nationalism in India","The Making of a Global World","The Age of Industrialisation","Print Culture and the Modern World"]],["Geography",["Resources and Development","Forest and Wildlife Resources","Water Resources","Agriculture","Minerals and Energy Resources","Manufacturing Industries","Lifelines of National Economy"]],["Political Science",["Power Sharing","Federalism","Gender, Religion and Caste","Political Parties","Outcomes of Democracy"]],["Economics",["Development","Sectors of the Indian Economy","Money and Credit","Globalisation and the Indian Economy","Consumer Rights"]]]},
+{id:"eng",n:"English",c:"#ffd23f",g:[["First Flight · Prose",["A Letter to God","Nelson Mandela: Long Walk to Freedom","Two Stories about Flying","From the Diary of Anne Frank","Glimpses of India","Mijbil the Otter","Madam Rides the Bus","The Sermon at Benares","The Proposal"]],["First Flight · Poetry",["Dust of Snow","Fire and Ice","A Tiger in the Zoo","How to Tell Wild Animals","The Ball Poem","Amanda!","The Trees","Fog","The Tale of Custard the Dragon","For Anne Gregory"]],["Footprints Without Feet",["A Triumph of Surgery","The Thief’s Story","The Midnight Visitor","A Question of Trust","Footprints without Feet","The Making of a Scientist","The Necklace","Bholi","The Book That Saved the Earth"]]]},
+{id:"mat",n:"Maths",c:"#ff2d95",g:[["",["Real Numbers","Polynomials","Pair of Linear Equations in Two Variables","Quadratic Equations","Arithmetic Progressions","Triangles","Coordinate Geometry","Introduction to Trigonometry","Some Applications of Trigonometry","Circles","Areas Related to Circles","Surface Areas and Volumes","Statistics","Probability"]]]},
+{id:"hin",n:"Hindi",c:"#b06bff",g:[["स्पर्श भाग 2 · काव्य",["साखी (कबीर)","पद (मीरा)","मनुष्यता","पर्वत प्रदेश में पावस","तोप","कर चले हम फिदा","आत्मत्राण"]],["स्पर्श भाग 2 · गद्य",["बड़े भाई साहब","डायरी का एक पन्ना","तताँरा-वामीरो कथा","तीसरी कसम के शिल्पकार शैलेंद्र","अब कहाँ दूसरे के दुख से दुखी होने वाले","पतझर में टूटी पत्तियाँ","कारतूस"]],["संचयन भाग 2",["हरिहर काका","सपनों के-से दिन","टोपी शुक्ला"]]]},
+{id:"ai",n:"AI",c:"#5dff9a",g:[["Part A · Employability Skills",["Communication Skills","Self-Management Skills","ICT Skills","Entrepreneurial Skills","Green Skills"]],["Part B · Subject Skills",["Revisiting AI Project Cycle & Ethical Issues","Advanced Python","Data Science","Computer Vision","Natural Language Processing","Evaluation"]]]}
+];
+let S={};try{S=JSON.parse(localStorage.getItem("c10")||"{}")}catch(e){}
+let cur=D[0].id;
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem("c10",JSON.stringify(S))}catch(e){}};
+const key=(d,g,i)=>d.id+"|"+g+"|"+i;
+const stat=d=>{let t=0,k=0;d.g.forEach((G,gi)=>G[1].forEach((_,i)=>{t++;if(S[key(d,gi,i)])k++}));return[k,t]};
+function bloom(c){const b=$("#bloom");b.style.setProperty("--accent",c);b.classList.remove("go");void b.offsetWidth;b.classList.add("go")}
+function mkNav(){$("#tabs").innerHTML=D.map(d=>`<button class="tab ${d.id==cur?"act":""}" style="--accent:${d.c}" data-id="${d.id}"><span>${d.n}</span></button>`).join("");
+$("#tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{if(b.dataset.id==cur)return;cur=b.dataset.id;bloom(D.find(d=>d.id==cur).c);mkNav();render();b.scrollIntoView({inline:"center",behavior:"smooth"})})}
+function render(){const d=D.find(x=>x.id==cur);document.documentElement.style.setProperty("--accent",d.c);document.documentElement.style.setProperty("--sx",(30+D.indexOf(d)*8)+"%");
+const[k,t]=stat(d);let n=0,h=`<div class="hd"><h2>${d.n.toUpperCase()}</h2><b id="cnt">${k}/${t}</b></div><div class="bar"><i id="pb" style="width:${k/t*100}%"></i></div>`;
+d.g.forEach((G,gi)=>{if(G[0])h+=`<div class="grp">${G[0]}</div>`;G[1].forEach((c,i)=>{n++;const on=S[key(d,gi,i)];h+=`<div class="ch ${on?"done":""}" data-k="${key(d,gi,i)}" style="animation-delay:${n*45}ms"><div class="n">${String(n).padStart(2,"0")}</div><div class="t">${c}</div><div class="box">✓</div></div>`})});
+h+=`<button class="rst" id="rst">RESET ${d.n.toUpperCase()}</button>`;$("#main").innerHTML=h;
+$("#main").querySelectorAll(".ch").forEach(el=>el.onclick=e=>tog(el,e));
+$("#rst").onclick=()=>{if(confirm("Reset all "+d.n+" progress?")){d.g.forEach((G,gi)=>G[1].forEach((_,i)=>delete S[key(d,gi,i)]));save();render();top()}};top()}
+function tog(el,e){const d=D.find(x=>x.id==cur),k=el.dataset.k,was=S[k];S[k]=!was;if(!S[k])delete S[k];save();el.classList.toggle("done",!was);
+if(!was){const x=document.createElement("div");x.className="xp";x.textContent="+100 XP";x.style.left=(e.clientX-30)+"px";x.style.top=(e.clientY-20)+"px";document.body.appendChild(x);setTimeout(()=>x.remove(),1000);if(navigator.vibrate)navigator.vibrate(20)}
+const[a,t]=stat(d);$("#cnt").textContent=a+"/"+t;$("#pb").style.width=a/t*100+"%";upd();
+if(!was&&a==t){bloom(d.c);const m=$("#mp");$("#mpn").textContent=d.n.toUpperCase()+" COMPLETE";m.classList.remove("go");void m.offsetWidth;m.classList.add("go")}}
+function upd(){let a=0,t=0;D.forEach(d=>{const[k,n]=stat(d);a+=k;t+=n});const p=Math.round(a/t*100);$("#pct").textContent=p+"% COMPLETE · "+a+"/"+t+" CHAPTERS";
+const st=Math.floor(p/20+.0001),w=$("#wanted");w.innerHTML=[1,2,3,4,5].map(i=>`<span class="star ${i<=st?"on":""}">★</span>`).join("")}
+mkNav();render();
+setTimeout(()=>{$("#intro").classList.add("out");bloom("#ff8a3d");setTimeout(()=>$("#intro").remove(),1100)},2600);
+</script></body></html>
